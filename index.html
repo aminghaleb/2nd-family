@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اللقاء الثاني: شفرة الحوار | التواصل الأسري الراشد</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #1A1A2E;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-dark: #0F6E56;
+    --gray: #6B7280;
+    --gray-light: #F3F4F6;
+    --border: #E5E7EB;
+    --white: #FFFFFF;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+  body { background: var(--gray-light); color: var(--deep); line-height: 1.7; font-size: 15px; }
+  h1, h2, h3 { font-family: 'Amiri', serif; color: var(--deep); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+  /* ── Header ── */
+  .topbar { background: var(--white); height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+  .logo { font-family: 'Amiri', serif; font-size: 22px; font-weight: 700; }
+  .logo span { color: var(--teal); }
+  
+  /* ── Main Container ── */
+  .main { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+  .panel { background: var(--white); border-radius: 12px; padding: 2.5rem; border: 1px solid var(--border); box-shadow: var(--shadow); }
+
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 10px; border-bottom: 2px solid var(--border); margin-bottom: 2rem; flex-wrap: wrap; }
+  .tab-btn { padding: 12px 24px; background: none; border: none; font-size: 16px; font-weight: 700; color: var(--gray); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: 0.2s; }
+  .tab-btn:hover { color: var(--deep); }
+  .tab-btn.active { color: var(--teal); border-bottom-color: var(--teal); }
+  .tab-content { display: none; animation: fadeIn 0.3s; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Media ── */
+  .content-img { width: 100%; height: auto; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); margin: 1.5rem 0; display: block; }
+  .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 1.5rem 0; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); background: #000; }
+  .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+  /* ── Interactive Tools ── */
+  .quiz-container { background: var(--gray-light); padding: 2rem; border-radius: 12px; border: 1px solid var(--border); }
+  .q-text { font-size: 18px; font-weight: 700; margin-bottom: 1.5rem; color: var(--deep); }
+  .opt-btn { display: block; width: 100%; text-align: right; padding: 14px 18px; margin-bottom: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); cursor: pointer; font-weight: 600; font-size: 15px; transition: 0.2s; }
+  .opt-btn:hover { border-color: var(--teal); background: var(--teal-light); }
+  .opt-btn.correct { background: #D1FAE5; border-color: #10B981; color: #065F46; }
+  .opt-btn.wrong { background: #FEE2E2; border-color: #EF4444; color: #991B1B; }
+  .feedback-box { margin-top: 15px; padding: 15px; border-radius: 8px; font-size: 15px; font-weight: 600; display: none; line-height: 1.6; }
+  .feedback-box.show { display: block; }
+  
+  .btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; display: inline-block; font-family: 'Cairo'; text-align: center; }
+  .btn-teal { background: var(--teal); color: white; }
+  .btn-teal:hover { background: var(--teal-dark); }
+  .btn-outline { background: var(--teal-light); border: 1px solid var(--teal); color: var(--teal-dark); width: 100%; margin-top: 1.5rem; }
+  .btn-outline:hover { background: #D1FAE5; }
+
+  .prog-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem; }
+  .prog-fill { height: 100%; background: var(--teal); width: 0%; transition: 0.3s; }
+  .flex-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><span>⊚</span> برنامج التواصل الأسري الراشد</div>
+  <div style="font-weight: 600; font-size: 15px;">د. أمين رمضان</div>
+</div>
+
+<main class="main">
+  <div class="panel">
+    <h1 style="font-size: 32px; margin-bottom: 5px;">اللقاء الثاني: شفرة الحوار</h1>
+    <p style="color: var(--gray); font-size: 16px; margin-bottom: 2rem;">أدوات التواصل وإدارة الخلافات</p>
+    
+    <button id="btn-report-s2" class="btn btn-outline" style="display:none; margin-bottom:1.5rem;" onclick="sendSessionEmail()">✉️ إرسال تقرير إنجاز اللقاء الثاني إلى الإيميل (aminghaleb@outlook.com)</button>
+    
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('theory')">المحتوى العلمي</button>
+      <button class="tab-btn" onclick="switchTab('tools')">محاكي المواقف (VAK)</button>
+      <button class="tab-btn" onclick="switchTab('assess')">التقييم الذاتي</button>
+    </div>
+
+    <!-- ── 1. Theory Content ── -->
+    <div id="tab-theory" class="tab-content active">
+      <h3>أولاً: قنوات استقبال المعلومات (الأنظمة التمثيلية VAK)</h3>
+      <p>أغلب الخلافات الأسرية ليست اختلافاً في الجوهر، بل اختلاف في "لغة التواصل". التحدث بنظام الطرف الآخر يُشعره بالألفة العميقة ويوقف مقاومته.</p>
+      <img src="vak-systems.png" alt="شفرة التواصل الأسري والأنظمة التمثيلية" class="content-img">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/gmHoFmR65I8" allowfullscreen></iframe>
+      </div>
+      <ul style="margin-right: 20px; line-height: 2;">
+        <li><strong style="color:var(--teal-dark)">النظام البصري (Visual):</strong> يدرك بالصور، كلامه سريع. لغته: <i>أرى، أتخيل، الصورة واضحة</i>.</li>
+        <li><strong style="color:var(--teal-dark)">النظام السمعي (Auditory):</strong> يدرك بالأصوات والمنطق التسلسلي، يتأثر بالنبرة. لغته: <i>أسمعك، هذا الكلام له صدى</i>.</li>
+        <li><strong style="color:var(--teal-dark)">النظام الحسي (Kinesthetic):</strong> يدرك بالمشاعر واللمس، يتحدث ببطء. لغته: <i>أشعر، حاسس، ضغط، مرتاح</i>.</li>
+      </ul>
+      <hr>
+      <h3>ثانياً: فرسان الخلاف الأربعة (جون جوتمان)</h3>
+      <p>هي أنماط تواصلية مدمرة تظهر أثناء النزاعات الأسرية، ورصدها مبكراً يساعد في بناء "الأسرة الراشدة".</p>
+      <img src="four-horsemen.png" alt="فرسان الخلاف الأربعة والترياق" class="content-img">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/TqaxahnbMuk" allowfullscreen></iframe>
+      </div>
+      <ul style="margin-right: 20px; line-height: 2;">
+        <li><strong>النقد:</strong> مهاجمة شخصية الشريك. <i>العلاج: البداية الناعمة + رسالة أنا</i>.</li>
+        <li><strong>الاحتقار:</strong> التعالي والسخرية. <i>العلاج: بناء ثقافة التقدير</i>.</li>
+        <li><strong>الدفاعية:</strong> لعب دور الضحية وعكس الهجوم. <i>العلاج: الاعتراف بالمسؤولية ولو جزئياً</i>.</li>
+        <li><strong>الانسحاب:</strong> بناء جدار صمت. <i>العلاج: التهدئة الفسيولوجية</i>.</li>
+      </ul>
+    </div>
+
+    <!-- ── 2. Interactive Simulator ── -->
+    <div id="tab-tools" class="tab-content">
+      <h3>🎭 محاكي المواقف (الأنظمة التمثيلية وفرسان الخلاف)</h3>
+      <p style="margin-bottom: 1.5rem;">تدرب على اختيار الاستجابة الراشدة التي تتوافق مع نظام الطرف الآخر أو تعالج فرسان الخلاف.</p>
+      <div class="quiz-container" id="vak-sim-area"></div>
+    </div>
+
+    <!-- ── 3. Self-Assessment ── -->
+    <div id="tab-assess" class="tab-content">
+      <h3>📝 التقييم الذاتي للقاء الثاني</h3>
+      <p style="margin-bottom: 1.5rem;">اختبر استيعابك للمفاهيم العلمية (20 سؤال).</p>
+      <div class="quiz-container" id="s2-quiz-area"></div>
+      <button id="btn-report" class="btn btn-outline" style="display:none;" onclick="sendSessionEmail()">✉️ إرسال نتيجة إنجاز اللقاء الثاني للمدرب</button>
+    </div>
+  </div>
+</main>
+
+<script>
+  // --- Navigation ---
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+  }
+
+  // --- Progress Tracking ---
+  let isSimDone = false, isAssessDone = false;
+  
+  function checkCompletion() {
+    if (isSimDone && isAssessDone) {
+      document.getElementById('btn-report-s2').style.display = 'block';
+      document.getElementById('btn-report').style.display = 'block';
+    }
+  }
+
+  function sendSessionEmail() {
+    const email = "aminghaleb@outlook.com";
+    const sessionName = "اللقاء الثاني: شفرة الحوار";
+    const achievements = "- محاكي المواقف للأنظمة التمثيلية وفرسان الخلاف\n- اجتياز التقييم الذاتي للقاء الثاني بنسبة 100%.";
+    const subject = encodeURIComponent(`تقرير اجتياز: ${sessionName}`);
+    const bodyText = `مرحباً د. أمين،\n\nيسعدني إبلاغكم بأنني قد أتممت بنجاح متطلبات ${sessionName} ضمن برنامج "التواصل الأسري الراشد".\n\nتم إنجاز المخرجات التالية:\n${achievements}\n\nخالص التحيات،\n[الرجاء كتابة اسمك هنا]`;
+    window.location.href = `mailto:${email}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+  }
+
+  // --- Interactive Simulator Logic ---
+  const vakScenarios = [
+    {
+      context: "حالة واقعية: زوجة حسية وزوج بصري",
+      quote: "الزوجة تشكو: 'أنت مش حاسس بيا ولا مقدر تعبي في البيت'.",
+      opts: [
+        "إزاي؟ مش شايفة كل الفواتير اللي دفعتها النهارده وآدي الحاجات اللي اشتريتها؟",
+        "أنا حاسس بتعبك ومقدر جداً الضغط اللي عليكي، وشايف مجهودك.",
+        "أسمعيني كويس، أنا كمان بتعب في الشغل."
+      ],
+      correct: 1,
+      feedback: "الزوجة الحسية تحتاج لغة تعبر عن المشاعر والتقدير (حاسس، مقدر). دمجها مع لغة بصرية (شايف) يقلل الدفاعية."
+    },
+    {
+      context: "حالة واقعية: أم بصرية وابن سمعي",
+      quote: "الأم تصرخ: 'غرفتك فوضى! مش قادرة أشوف كتاب واحد مفتوح!' والابن يتجاهلها.",
+      opts: [
+        "الاستمرار في الصراخ لإجباره على الترتيب.",
+        "تخفض نبرة صوتها وتقول: 'أريد أن أسمع منك خطتك لمذاكرة اليوم'.",
+        "ترتيب الغرفة بدلاً منه لأنها لا تتحمل الفوضى."
+      ],
+      correct: 1,
+      feedback: "الابن السمعي يتأثر بالنبرة المرتفعة التي تشوش تركيزه. تخفيض الصوت واستخدام لغته (أسمع) يمتص مقاومته."
+    },
+    {
+      context: "فرسان الخلاف (النقد)",
+      quote: "الزوج: 'أنتِ دايماً مهملة ولا تفكرين إلا في راحتك وتتركين لي كل العبء!'",
+      opts: [
+        "ترد الزوجة: 'وأنت مبتعملش حاجة غير الانتقاد!'",
+        "تصمت الزوجة وتمسك الهاتف لتتجاهله.",
+        "يقول الزوج بدلاً من ذلك: 'أنا أشعر بالإنهاك وأحتاج مساعدتك في ترتيب غرفة المعيشة.'"
+      ],
+      correct: 2,
+      feedback: "العلاج الفوري للنقد هو 'البداية الناعمة' باستخدام رسالة 'أنا'."
+    },
+    {
+      context: "فرسان الخلاف (الدفاعية)",
+      quote: "الزوجة تسأل عن فاتورة نسي الزوج دفعها. فيرد: 'ولماذا لم تدفعيها أنتِ؟ الخطأ خطأك!'",
+      opts: [
+        "الاستجابة الراشدة للزوج: 'معك حق، لقد نسيت تماماً وسط ضغط العمل. سأقوم بدفعها الآن.'",
+        "رد الزوجة: 'طبعاً كالعادة، خبير في اختلاق الأعذار!'",
+        "يخرج الزوج من المنزل ويغلق الباب بقوة."
+      ],
+      correct: 0,
+      feedback: "الاعتراف بالمسؤولية (ولو جزئياً) هو الترياق المضاد للدفاعية، لإنهاء الخلاف وإطفاء الغضب."
+    }
+  ];
+
+  let currentSim = 0;
+  function renderSimulator() {
+    const container = document.getElementById('vak-sim-area');
+    if (currentSim >= vakScenarios.length) {
+      isSimDone = true;
+      checkCompletion();
+      container.innerHTML = `<div style="text-align:center;">
+        <h2 style="color:var(--teal); margin-bottom:10px;">أحسنت!</h2>
+        <p style="font-size: 18px; font-weight:700;">أتممت جميع مواقف المحاكاة بنجاح.</p>
+        <button class="btn btn-teal mt-2" onclick="currentSim=0; renderSimulator();">إعادة المحاكاة</button>
+      </div>`;
+      return;
+    }
+    const s = vakScenarios[currentSim];
+    let html = `
+      <div class="flex-between mb-1">
+        <span style="font-size: 14px; font-weight: 700; color:var(--gray);">الموقف ${currentSim + 1} من ${vakScenarios.length}</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${((currentSim) / vakScenarios.length) * 100}%"></div></div>
+      <div class="q-text" style="font-size:16px;">${s.context}</div>
+      <div style="background:var(--white); padding:1rem; border-right:3px solid var(--teal); border-radius:8px; margin-bottom:1.5rem; font-weight:700; font-size: 15px;">${s.quote}</div>
+    `;
+    s.opts.forEach((opt, i) => { html += `<button class="opt-btn" onclick="handleSimAnswer(${i})">${opt}</button>`; });
+    html += `<div id="sim-fb" class="feedback-box"></div>`;
+    html += `<button id="sim-next" class="btn btn-teal" style="display:none; margin-top:15px; width:100%;" onclick="currentSim++; renderSimulator();">التالي &rarr;</button>`;
+    container.innerHTML = html;
+  }
+
+  function handleSimAnswer(choice) {
+    const s = vakScenarios[currentSim];
+    const fbBox = document.getElementById('sim-fb');
+    const nextBtn = document.getElementById('sim-next');
+    const btns = document.querySelectorAll('#vak-sim-area .opt-btn');
+    btns.forEach(b => b.style.pointerEvents = 'none'); 
+    
+    if (choice === s.correct) {
+      btns[choice].classList.add('correct');
+      fbBox.className = 'feedback-box show';
+      fbBox.style.background = '#D1FAE5'; fbBox.style.color = '#065F46';
+      fbBox.innerHTML = `✅ <strong>إجابة راشدة:</strong> ${s.feedback}`;
+    } else {
+      btns[choice].classList.add('wrong');
+      btns[s.correct].classList.add('correct');
+      fbBox.className = 'feedback-box show';
+      fbBox.style.background = '#FEE2E2'; fbBox.style.color = '#991B1B';
+      fbBox.innerHTML = `❌ <strong>إجابة غير موفقة:</strong> ${s.feedback}`;
+    }
+    nextBtn.style.display = 'block';
+  }
+
+  // --- Self-Assessment Logic ---
+  const s2Qs = [
+    {q:"الشخص ذو النظام 'البصري' يتحدث ببطء ويستخدم كلمات مثل 'أشعر، ثقيل'.", opts:["صح","خطأ"], correct: 1},
+    {q:"إذا قال لك شخص 'كلامك مش داخل دماغي ولا له صدى'، فهو غالباً من النظام السمعي.", opts:["صح","خطأ"], correct: 0},
+    {q:"'النقد' حسب نموذج جوتمان هو مهاجمة السلوك المزعج بوضوح وليس الشخصية.", opts:["صح","خطأ"], correct: 1},
+    {q:"علاج 'النقد' هو استخدام البداية الناعمة ورسالة 'أنا'.", opts:["صح","خطأ"], correct: 0},
+    {q:"الفارس الأخطر في فرسان الخلاف لأنه ينقل رسالة اشمئزاز هو 'الاحتقار'.", opts:["صح","خطأ"], correct: 0},
+    {q:"علاج 'الاحتقار' يعتمد على بناء ثقافة التقدير والتعبير عن الحاجة باحترام.", opts:["صح","خطأ"], correct: 0},
+    {q:"لعب دور الضحية واختلاق الأعذار يعتبر من نمط 'الدفاعية'.", opts:["صح","خطأ"], correct: 0},
+    {q:"الرد الأنسب على 'المماطلة أو الانسحاب' هو طلب استراحة لمدة 15 دقيقة للتهدئة الفسيولوجية.", opts:["صح","خطأ"], correct: 0},
+    {q:"'رسالة أنا' تركز على اتهام الطرف الآخر بشكل مهذب.", opts:["صح","خطأ"], correct: 1},
+    {q:"لتوجيه طفل 'بصري' لترتيب غرفته، الأفضل أن نقول: 'أريد أن أرى الغرفة مرتبة'.", opts:["صح","خطأ"], correct: 0},
+    {q:"التوافق يتحقق عندما تتحدث مع الشخص بنفس نظامه التمثيلي.", opts:["صح","خطأ"], correct: 0},
+    {q:"علاج الدفاعية هو الاعتراف بالمسؤولية ولو في جزء بسيط من المشكلة.", opts:["صح","خطأ"], correct: 0},
+    {q:"عندما يقلب الشخص عينيه أثناء كلامك، هذا دليل على الاحتقار.", opts:["صح","خطأ"], correct: 0},
+    {q:"الزوجة التي تقول 'أنت دائماً مهمل' تستخدم فارس الدفاعية.", opts:["صح","خطأ"], correct: 1},
+    {q:"'أنا أشعر بالإرهاق وأحتاج مساعدتك' تعتبر بداية ناعمة لتقليل الدفاعية.", opts:["صح","خطأ"], correct: 0},
+    {q:"الصمت المفاجئ أثناء الخلاف وترك المكان يسمى 'المماطلة/الانسحاب'.", opts:["صح","خطأ"], correct: 0},
+    {q:"النظام السمعي يتأثر بنبرة الصوت أكثر من الكلمات نفسها.", opts:["صح","خطأ"], correct: 0},
+    {q:"الشخص الحسي يتخذ قراراته بناءً على شكل الأشياء الخارجي.", opts:["صح","خطأ"], correct: 1},
+    {q:"'الدفاعية' تزيد من حدة الخلاف لأنها لا تقدم حلاً بل تبريراً وعكس للهجوم.", opts:["صح","خطأ"], correct: 0},
+    {q:"نجاح التواصل يعتمد بنسبة 100% على الكلمات المنطوقة فقط.", opts:["صح","خطأ"], correct: 1}
+  ];
+
+  let currentAssessQ = 0, assessScore = 0;
+
+  function renderAssessment() {
+    const container = document.getElementById('s2-quiz-area');
+    if (currentAssessQ >= s2Qs.length) {
+      isAssessDone = true;
+      checkCompletion();
+      container.innerHTML = `<div style="text-align:center;">
+        <h2 style="color:var(--teal); margin-bottom:10px;">اكتمل التقييم!</h2>
+        <p style="font-size: 20px; font-weight:700;">النتيجة: ${assessScore} / ${s2Qs.length}</p>
+        <button class="btn btn-teal mt-2" onclick="currentAssessQ=0; assessScore=0; renderAssessment();">إعادة التقييم</button>
+      </div>`;
+      return;
+    }
+    const q = s2Qs[currentAssessQ];
+    let html = `
+      <div class="flex-between mb-1">
+        <span style="font-size: 12px; font-weight: 700; color:var(--gray);">السؤال ${currentAssessQ + 1} / ${s2Qs.length}</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${((currentAssessQ) / s2Qs.length) * 100}%"></div></div>
+      <div class="q-text">${q.q}</div>
+    `;
+    q.opts.forEach((opt, i) => { html += `<button class="opt-btn" onclick="handleAssessAnswer(${i})">${opt}</button>`; });
+    container.innerHTML = html;
+  }
+
+  function handleAssessAnswer(choice) {
+    if (choice === s2Qs[currentAssessQ].correct) assessScore++;
+    currentAssessQ++;
+    renderAssessment();
+  }
+
+  window.onload = () => { renderSimulator(); renderAssessment(); };
+</script>
+</body>
+</html>
